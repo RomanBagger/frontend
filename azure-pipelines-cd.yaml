@@ -1,0 +1,27 @@
+trigger: none
+
+pool:
+  name: 'Default'
+  demands:
+    - agent.name -equals instance-20250115-185328
+
+variables:
+  GCP_SERVICE_CONNECTION: 'mygcpconnection'
+  Working_Directory: '$(System.DefaultWorkingDirectory)/HelmCharts'
+
+steps: 
+
+- script: |
+    gcloud container clusters get-credentials $(CLUSTER_NAME) --region $(REGION) --project $(PROJECT)
+  workingDirectory: $(Working_Directory)
+  displayName: 'Connection to GKE'
+
+- script: |
+    terraform init -input=false
+  workingDirectory: '$(Working_Directory)/frontapp'
+  displayName: 'Terraform Init for frontend'
+
+- script: |
+    terraform apply -input=false -auto-approve
+  workingDirectory: '$(Working_Directory)/frontapp'
+  displayName: 'Deploy frontend application'

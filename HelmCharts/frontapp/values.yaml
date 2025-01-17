@@ -1,0 +1,5 @@
+container:
+  image: romanbeggar/frontend
+  tag: 173
+
+replicaCount: 1

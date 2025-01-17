@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-medfast-frontend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-medfast-frontend
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-medfast-frontend
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-frontend
+        image: {{ .Values.container.image }}:{{ .Values.container.tag }}
+        ports:
+        - containerPort: 80
