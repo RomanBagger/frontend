@@ -1,7 +1,3 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
 - main
 
@@ -30,7 +26,7 @@ steps:
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     buildContext: $(Build.SourcesDirectory)
-    additionalOptions: '--env-file $(Build.SourcesDirectory)/.env'  # передаем .env файл при билде Docker образа
+    additionalOptions: '--env-file $(Build.SourcesDirectory)/.env'  
     tags: |
       $(Build.BuildId)
   displayName: 'Build and push Docker image'
