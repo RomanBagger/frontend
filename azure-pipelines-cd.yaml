@@ -8,28 +8,33 @@ pool:
 variables:
   GCP_SERVICE_CONNECTION: 'mygcpconnection'
   Working_Directory: '$(System.DefaultWorkingDirectory)/HelmCharts'
+  IMAGE_TAG: $(Build.BuildId)
 
 steps: 
 
 - script: |
-    sudo apt-get update
-    sudo apt-get install -y unzip
-  displayName: 'Install unzip'
+    echo "IMAGE_TAG is: $(IMAGE_TAG)"  # Выводим значение переменной
+  displayName: 'Check IMAGE_TAG'
 
-- script: |
-    gcloud container clusters get-credentials $(CLUSTER_NAME) --region $(REGION) --project $(PROJECT)
-  workingDirectory: $(Working_Directory)
-  displayName: 'Connection to GKE'
+# - script: |
+#     sudo apt-get update
+#     sudo apt-get install -y unzip
+#   displayName: 'Install unzip'
 
-- task: HelmInstaller@1
-  inputs:
-    helmVersionToInstall: 'latest'
+# - script: |
+#     gcloud container clusters get-credentials $(CLUSTER_NAME) --region $(REGION) --project $(PROJECT)
+#   workingDirectory: $(Working_Directory)
+#   displayName: 'Connection to GKE'
+
+# - task: HelmInstaller@1
+#   inputs:
+#     helmVersionToInstall: 'latest'
 
 
-- script: |
-    helm upgrade --install medfast-frontend ./HelmCharts/frontapp \
-      --set image.tag=${Build.BuildId} \
-      --namespace default \
-      --wait \
-      --force
-  displayName: 'Deploy with Helm'
+# - script: |
+#     helm upgrade --install medfast-frontend ./HelmCharts/frontapp \
+#       --set image.tag=${Build.BuildId} \
+#       --namespace default \
+#       --wait \
+#       --force
+#   displayName: 'Deploy with Helm'
