@@ -7,7 +7,7 @@ resources:
 pool:
     name: 'Default'
     demands:
-        - agent.name -equals instance-20241203-145320
+        - agent.name -equals instance-20250115-185328
 
 
 variables:
