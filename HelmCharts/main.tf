@@ -23,6 +23,7 @@ resource "helm_release" "medfast-frontend" {
     value = var.image_tag  
   }
 
+  upgrade        = true
   atomic         = true      
   recreate_pods  = true      
   cleanup_on_fail = true      
