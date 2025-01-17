@@ -1,6 +1,6 @@
 container:
   image: romanbeggar/frontend
-  tag: "{{ .Values.image.tag }}" 
+  tag: "latest" 
   pullPolicy: IfNotPresent
 
 replicaCount: 1
