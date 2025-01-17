@@ -12,6 +12,11 @@ variables:
 steps: 
 
 - script: |
+    sudo apt-get update
+    sudo apt-get install -y unzip
+  displayName: 'Install unzip'
+
+- script: |
     gcloud container clusters get-credentials $(CLUSTER_NAME) --region $(REGION) --project $(PROJECT)
   workingDirectory: $(Working_Directory)
   displayName: 'Connection to GKE'
