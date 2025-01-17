@@ -1,3 +1,46 @@
+# trigger: none
+
+# pool:
+#   name: 'Default'
+#   demands:
+#     - agent.name -equals instance-20250115-185328
+
+# variables:
+#   GCP_SERVICE_CONNECTION: 'mygcpconnection'
+#   Working_Directory: '$(System.DefaultWorkingDirectory)/HelmCharts'
+#   IMAGE_TAG: $(Build.BuildId)
+
+# steps: 
+
+# - script: |
+#     LAST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/romanbeggar/frontend/tags/" | jq -r '.results[0].name')
+#     echo "Last tag from Docker Hub is: $LAST_TAG"
+#     echo "##vso[task.setvariable variable=IMAGE_TAG]$LAST_TAG"  
+#   displayName: 'Get Last Tag from Docker Hub'
+
+# - script: |
+#     sudo apt-get update
+#     sudo apt-get install -y unzip
+#   displayName: 'Install unzip'
+
+# - script: |
+#     gcloud container clusters get-credentials $(CLUSTER_NAME) --region $(REGION) --project $(PROJECT)
+#   workingDirectory: $(Working_Directory)
+#   displayName: 'Connection to GKE'
+
+# - task: HelmInstaller@1
+#   inputs:
+#     helmVersionToInstall: 'latest'
+
+
+# - script: |
+#     helm upgrade --install medfast-frontend ./HelmCharts/frontapp \
+#       --set image.tag=$(IMAGE_TAG) \
+#       --namespace default \
+#       --wait \
+#       --force
+#   displayName: 'Deploy with Helm'
+
 trigger: none
 
 pool:
@@ -8,32 +51,37 @@ pool:
 variables:
   GCP_SERVICE_CONNECTION: 'mygcpconnection'
   Working_Directory: '$(System.DefaultWorkingDirectory)/HelmCharts'
-  IMAGE_TAG: $(Build.BuildId)
+  IMAGE_TAG: ''  # Инициализация пустой переменной IMAGE_TAG
 
-steps: 
+steps:
 
+# Получаем последний тег из Docker Hub
 - script: |
     LAST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/romanbeggar/frontend/tags/" | jq -r '.results[0].name')
     echo "Last tag from Docker Hub is: $LAST_TAG"
-    echo "##vso[task.setvariable variable=IMAGE_TAG]$LAST_TAG"  
+    echo "##vso[task.setvariable variable=IMAGE_TAG]$LAST_TAG"  # Устанавливаем переменную IMAGE_TAG с последним тегом
   displayName: 'Get Last Tag from Docker Hub'
 
+# Устанавливаем необходимые зависимости
 - script: |
     sudo apt-get update
     sudo apt-get install -y unzip
   displayName: 'Install unzip'
 
+# Подключаемся к GKE кластеру
 - script: |
     gcloud container clusters get-credentials $(CLUSTER_NAME) --region $(REGION) --project $(PROJECT)
   workingDirectory: $(Working_Directory)
   displayName: 'Connection to GKE'
 
+# Устанавливаем Helm
 - task: HelmInstaller@1
   inputs:
     helmVersionToInstall: 'latest'
 
-
+# Деплой с использованием последнего тега
 - script: |
+    echo "Deploying with IMAGE_TAG: $(IMAGE_TAG)"
     helm upgrade --install medfast-frontend ./HelmCharts/frontapp \
       --set image.tag=$(IMAGE_TAG) \
       --namespace default \
