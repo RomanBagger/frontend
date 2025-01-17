@@ -1,5 +1,6 @@
 container:
   image: romanbeggar/frontend
-  tag: 173
+  tag: "latest"  
+  pullPolicy: IfNotPresent
 
 replicaCount: 1

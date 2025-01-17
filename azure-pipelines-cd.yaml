@@ -22,6 +22,6 @@ steps:
   displayName: 'Terraform Init for frontend'
 
 - script: |
-    terraform apply -input=false -auto-approve
+    terraform apply -auto-approve -var="image_tag=${TAG}"
   workingDirectory: '$(Working_Directory)/frontapp'
   displayName: 'Deploy frontend application'
