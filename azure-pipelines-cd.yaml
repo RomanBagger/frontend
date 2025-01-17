@@ -13,8 +13,11 @@ variables:
 steps: 
 
 - script: |
-    echo "IMAGE_TAG is: $(IMAGE_TAG)"  # Выводим значение переменной
-  displayName: 'Check IMAGE_TAG'
+    # Получаем последний тег с Docker Hub
+    LAST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/romanbeggar/frontend/tags/" | jq -r '.results[0].name')
+    echo "Last tag from Docker Hub is: $LAST_TAG"
+    echo "##vso[task.setvariable variable=IMAGE_TAG]$LAST_TAG"  # Устанавливаем переменную IMAGE_TAG
+  displayName: 'Get Last Tag from Docker Hub'
 
 # - script: |
 #     sudo apt-get update
