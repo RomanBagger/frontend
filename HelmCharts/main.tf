@@ -16,19 +16,17 @@ provider "helm" {
 resource "helm_release" "medfast-frontend" {
   name       = "medfast-frontend"
   chart      = "${path.module}/frontapp"
-  namespace  = "default
-
-  values = [
-    file("${path.module}/frontapp/values.yaml")
-  ]
+  namespace  = "default"
 
   set {
     name  = "image.tag"
-    value = var.image_tag  
+    value = var.image_tag 
   }
 
   atomic         = true      
   recreate_pods  = true      
   cleanup_on_fail = true      
-  force_update   = true
+  force_update   = true     
+
+  wait           = true
 }
