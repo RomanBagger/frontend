@@ -23,5 +23,5 @@ steps:
 
 - script: |
     terraform apply -auto-approve -var="image_tag=${TAG}"
-  workingDirectory: '$(Working_Directory)/frontapp'
+  workingDirectory: '$(Working_Directory)'
   displayName: 'Deploy frontend application'
