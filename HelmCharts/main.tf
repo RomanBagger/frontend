@@ -16,8 +16,7 @@ provider "helm" {
 resource "helm_release" "medfast-frontend" {
   name       = "medfast-frontend"
   chart      = "${path.module}/frontapp"
-  namespace  = "default"
-  upgrade    = true
+  namespace  = "default
 
   values = [
     file("${path.module}/frontapp/values.yaml")
