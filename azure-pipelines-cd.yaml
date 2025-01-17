@@ -17,11 +17,9 @@ steps:
   displayName: 'Connection to GKE'
 
 - script: |
-    terraform init -input=false
-  workingDirectory: '$(Working_Directory)'
-  displayName: 'Terraform Init for frontend'
-
-- script: |
-    terraform apply -auto-approve -var="image_tag=${TAG}"
-  workingDirectory: '$(Working_Directory)'
-  displayName: 'Deploy frontend application'
+    helm upgrade --install medfast-frontend ./HelmCharts/frontapp \
+      --set image.tag=${BUILD_ID} \
+      --namespace default \
+      --wait \
+      --force
+  displayName: 'Deploy with Helm'
