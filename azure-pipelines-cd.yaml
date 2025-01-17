@@ -35,7 +35,7 @@
 
 # - script: |
 #     helm upgrade --install medfast-frontend ./HelmCharts/frontapp \
-#       --set image.tag=$(IMAGE_TAG) \
+#       --set container.tag=$(IMAGE_TAG) \
 #       --namespace default \
 #       --wait \
 #       --force
@@ -83,7 +83,7 @@ steps:
 - script: |
     echo "Deploying with IMAGE_TAG: $(IMAGE_TAG)"
     helm upgrade --install medfast-frontend ./HelmCharts/frontapp \
-      --set image.tag=$(IMAGE_TAG) \
+      --set container.tag=$(IMAGE_TAG) \
       --namespace default \
       --wait \
       --force
