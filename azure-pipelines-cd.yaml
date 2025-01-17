@@ -18,10 +18,10 @@ steps:
 
 - script: |
     terraform init -input=false
-  workingDirectory: '$(Working_Directory)/frontapp'
+  workingDirectory: '$(Working_Directory)'
   displayName: 'Terraform Init for frontend'
 
 - script: |
     terraform apply -input=false -auto-approve
-  workingDirectory: '$(Working_Directory)/frontapp'
+  workingDirectory: '$(Working_Directory)'
   displayName: 'Deploy frontend application'
