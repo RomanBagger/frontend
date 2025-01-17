@@ -13,7 +13,15 @@ pool:
     demands:
         - agent.name -equals instance-20241203-145320
 
+
+variables:
+  API_HOST: "http://medfast-backend:8080"
+
 steps:
+
+- script: |
+    echo "API_HOST=$(API_HOST)" > $(Build.SourcesDirectory)/.env
+  displayName: 'Create .env file with API_HOST'
 
 - task: Docker@2
   inputs:
@@ -21,3 +29,9 @@ steps:
     repository: 'romanbeggar/frontend'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
+    buildContext: $(Build.SourcesDirectory)
+    additionalOptions: '--env-file $(Build.SourcesDirectory)/.env'  # передаем .env файл при билде Docker образа
+    tags: |
+      $(Build.BuildId)
+  displayName: 'Build and push Docker image'
+
