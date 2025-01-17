@@ -28,7 +28,7 @@ steps:
 
 - script: |
     helm upgrade --install medfast-frontend ./HelmCharts/frontapp \
-      --set image.tag=${BUILD_ID} \
+      --set image.tag=195 \
       --namespace default \
       --wait \
       --force
