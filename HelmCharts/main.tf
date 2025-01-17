@@ -25,8 +25,12 @@ resource "helm_release" "medfast-frontend" {
 
   atomic         = true      
   recreate_pods  = true      
-  cleanup_on_fail = true      
+  cleanup_on_fail = true     
   force_update   = true     
-
   wait           = true
+  replace        = true
+  
+  lifecycle {
+    ignore_changes = [set]
+  }
 }
