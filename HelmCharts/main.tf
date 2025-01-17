@@ -31,6 +31,8 @@ resource "helm_release" "medfast-frontend" {
   replace        = true
   
   lifecycle {
-    ignore_changes = [set]
+    pre_destroy = [
+      "helm uninstall medfast-frontend --namespace default"
+    ]
   }
 }
